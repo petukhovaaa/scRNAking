@@ -46,7 +46,7 @@ project=args[2]
 seurat_mat <- readRDS(args[3])
 seurat_mat_idents <- args[4]
 
-### umaps
+### finding markers in defined groups
 
 Idents(seurat_mat) <- seurat_mat_idents
 
@@ -61,7 +61,7 @@ seurat_mat_markers <- FindAllMarkers(seurat_mat_subset,
 
 write.table(seurat_mat_markers, paste('all_markers_',project,'.csv',sep=''), sep = ',')
 
-seurat_mat_markers_035 <- subset(seurat_mat_markers, subset = pct.1 > 0.35)
+seurat_mat_markers_035 <- subset(seurat_mat_markers, subset = pct.1 > 0.35) # defining reasonabe cutoff for percentage of the cell expressina a gene to consider it to be a marker
 
 top3_markers = as.data.frame(seurat_mat_markers_035 %>%
 				       group_by(cluster) %>% 
@@ -92,6 +92,8 @@ Seurat::DotPlot(seurat_mat_subset, assay = 'RNA', features = unique(top5_markers
 							   size = 15,                                                   
 							   hjust = 1)) 
 dev.off()
+
+#### markers heatmaps
 
 seurat_mat_heat <- ScaleData(object = seurat_mat_subset, assay = 'RNA', features = unique(top3_markers$gene))
 
