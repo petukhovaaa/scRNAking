@@ -46,7 +46,7 @@ project=args[2]
 seurat_mat <- readRDS(args[3])
 seurat_mat_idents <- args[4]
 
-### umaps
+### finding markers in defined groups
 
 Idents(seurat_mat) <- seurat_mat_idents
 
@@ -61,7 +61,7 @@ seurat_mat_markers <- FindAllMarkers(seurat_mat_subset,
 
 write.table(seurat_mat_markers, paste('all_markers_',project,'.csv',sep=''), sep = ',')
 
-seurat_mat_markers_025 <- subset(seurat_mat_markers, subset = pct.1 > 0.25)
+seurat_mat_markers_025 <- subset(seurat_mat_markers, subset = pct.1 > 0.25) # defining reasonabe cutoff for percentage of the cell expressing a gene to consider it to be a marker
 
 write.csv(seurat_mat_markers_025,paste('all_markers_025_',project,'.csv', sep = ''))
 
