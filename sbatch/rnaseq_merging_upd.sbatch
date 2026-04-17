@@ -29,7 +29,15 @@ path=$1
 project=$2
 seurat_objects_raw_dir=$3
 seurat_objects_dir=$4
-input=$5
-output=$6
+prefix=$5
+input=$6
+output=$7
 
-Rscript data_analysis_with_merge_upd.R $path $project $seurat_objects_raw_dir $seurat_objects_dir $input $output
+#Rscript data_analysis_with_merge.R $path $project $seurat_objects_dir $input $output
+
+Rscript data_analysis_with_merge_upd.R $path $project $seurat_objects_raw_dir $seurat_objects_dir $prefix $input $output
+
+#Rscript data_analysis_with_merge_multiome.R $path $project $seurat_objects_dir $input $output
+
+#mv ${path}/${input} $seurat_objects_dir
+#mv ${path}/${output} $seurat_objects_dir

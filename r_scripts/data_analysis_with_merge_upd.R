@@ -37,10 +37,12 @@ res=0.6
 project=args[2]
 dir_seurat_objects_raw=args[3]
 dir_seurat_objects=args[4]
+prefix=args[5]
 
 print(project)
 print(dir_seurat_objects_raw)
 print(dir_seurat_objects)
+print(prefix)
 
 dir.create(dir_seurat_objects)
 dir.create(dir_seurat_objects_raw)
@@ -48,7 +50,7 @@ dir.create(dir_seurat_objects_raw)
 # reading input
 
 folder_list <- list.dirs(path = getwd(), full.names = TRUE, recursive = FALSE)
-folder_list <- folder_list[grepl("Samineni_SR", basename(folder_list))]
+folder_list <- folder_list[grepl(prefix, basename(folder_list))]
 print(folder_list)
 
 for (main_folder in folder_list) {
@@ -69,7 +71,7 @@ for (main_folder in folder_list) {
 		#seurat_obj_name = paste0('seurat_obj_',sample_name)
 		#assign(seurat_obj_name, seurat_obj, envir = .GlobalEnv)
 		# Save RDS
-		saveRDS(seurat_obj, file = file.path(dir_seurat_objects_raw, paste0("seurat_mat_", sample_name, "_before_qc.RDS")))
+		saveRDS(seurat_obj, file = paste0(dir_seurat_objects_raw,"/seurat_mat_", sample_name, "_before_qc.RDS"))
 	        }
 }
 
@@ -81,7 +83,7 @@ names(seurat_list) <- sapply(files_list, function(x) tools::file_path_sans_ext(b
 
 seurat_mat <- merge(seurat_list[[1]], y = seurat_list[-1], add.cell.ids = names(seurat_list), project = project)
 
-saveRDS(seurat_mat, paste0(dir_seurat_objects,'/',args[5]))
+saveRDS(seurat_mat, paste0(dir_seurat_objects,'/',args[6]))
 
 DefaultAssay(object = seurat_mat) <- "RNA"
 
@@ -130,6 +132,6 @@ pdf(paste("Featureplot_nFeature_nCounts_mt_",project,".pdf",sep=''),heigh=15,wid
 FeaturePlot(seurat_mat, features = c("nFeature_RNA", "nCount_RNA","percent.mt"),reduction='umap',coord.fixed=T,raster = F)
 dev.off()
 
-saveRDS(seurat_mat, file = paste0(dir_seurat_objects,'/',args[6]))
+saveRDS(seurat_mat, file = paste0(dir_seurat_objects,'/',args[7]))
 
 q() 
