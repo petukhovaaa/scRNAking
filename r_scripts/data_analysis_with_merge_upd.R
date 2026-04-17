@@ -120,15 +120,15 @@ seurat_mat <- RunUMAP(seurat_mat, dims = 1:pc_num)
 seurat_mat = AddMetaData(seurat_mat,Embeddings(seurat_mat[["tsne"]]),colnames(Embeddings(seurat_mat[["tsne"]])))
 seurat_mat = AddMetaData(seurat_mat,Embeddings(seurat_mat[["umap"]]),colnames(Embeddings(seurat_mat[["umap"]])))
 
-pdf(paste("Umap_clusters+libs_",project,".pdf",sep=''),heigh=15,width=30)
+pdf(paste(dir_seurat_objects,"/Umap_clusters+libs_",project,".pdf",sep=''),heigh=15,width=30)
 DimPlot(seurat_mat, reduction = "umap",label = T,raster = F) + DimPlot(seurat_mat, reduction = "umap",label = F,raster = F, group.by = 'orig.ident')
 dev.off()
 
-pdf(paste("VlnPlot_nFeature_nCounts_mt_libs_",project,".pdf",sep=''),heigh=15,width=45)
+pdf(paste(dir_seurat_objects,"/VlnPlot_nFeature_nCounts_mt_libs_",project,".pdf",sep=''),heigh=15,width=45)
 VlnPlot(seurat_mat, features = c("nFeature_RNA", "nCount_RNA","percent.mt"), pt.size = 0, group.by = 'orig.ident')
 dev.off()
 
-pdf(paste("Featureplot_nFeature_nCounts_mt_",project,".pdf",sep=''),heigh=15,width=15)
+pdf(paste(dir_seurat_objects,"/Featureplot_nFeature_nCounts_mt_",project,".pdf",sep=''),heigh=15,width=15)
 FeaturePlot(seurat_mat, features = c("nFeature_RNA", "nCount_RNA","percent.mt"),reduction='umap',coord.fixed=T,raster = F)
 dev.off()
 
